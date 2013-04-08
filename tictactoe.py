@@ -2,28 +2,24 @@
 #softdes!
 #tictactoe
 
-#between two human users!
-
 def play(board, you, move):
-
-	"""using the dictionary board = {'x':[4,5], 'o'[1,2]} indicating 
-	the current state of the game
-	and you either 'x' or 'o' (indicating which player you should move),
-	make a perfect computer move.
-	The board positions are
-	1 2 3
-	4 5 6
-	7 8 9"""
-
-	if board[move] == 'x' or board[move] == 'o':
+	if move in tictactoe_dict['x'] or tictactoe_dict['o']:	
 		print ("Hey, this spot is already occupied!")
 		return False
-
 	else:
-		board[move] = you
+		tictactoe_dict[you].append(move)
 	return board
 
-
+def visualize_board (board):
+	boardposlist = [None,'1','2','3','4','5','6','7','8','9'] 
+	xpos = board['x']
+	for i in xpos:
+	 	boardposlist[i] = 'x'
+	opos = board['o']
+	for i in opos:
+	 	boardposlist[i] = 'o'
+	boardstring = str(boardposlist[1]) + " " + str(boardposlist[2]) + " " + str(boardposlist[3]) + "\n" + str(boardposlist[4]) + " " + str(boardposlist[5]) + " " + str(boardposlist[6]) + "\n" + str(boardposlist[7]) + " " + str(boardposlist[8]) + " " + str(boardposlist[9]) + "\n"
+	return boardstring
 
 def game_over(board):
 	#did you win? 
@@ -54,14 +50,11 @@ def game_over(board):
 	#nobody has won yet	
 	return False 
 
-
-
 def tictactoe():
-	#board = {} # a dictionary, an empty something.
-	#board = [] #let's do a list, actually.
-	
+
 	#initial values :D
-	board = [None, 1, 2, 3, 4, 5, 6, 7, 8, 9] #shouldn't we start with an unplayed board first?
+	#board = [None, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+	board = {'x':[], 'o':[]}
 	you = 'x' #x goes first!
 
 	welcome = """
@@ -74,7 +67,6 @@ def tictactoe():
 	print (welcome)
 
 	while game_over(board) == False: 
-				#MAKE YO MOVE!
 		move = int(input("Player of " + you + ", make your move. "))
 
 		#python's doing it to the board
@@ -84,8 +76,7 @@ def tictactoe():
 			newboard = play(board, you, move)
 		
 		#player made a move; now show them the new board
-		visualboard = str(board[1]) + " " + str(board[2]) + " " + str(board[3]) + "\n" + str(board[4]) + " " + str(board[5]) + " " + str(board[6]) + "\n" + str(board[7]) + " " + str(board[8]) + " " + str(board[9]) + "\n"    
-		print (visualboard)
+		print(visualize_board(board))
 		
 		#next player's turn!
 		if you == 'x':
@@ -97,25 +88,10 @@ def tictactoe():
 		board = newboard 
 
 	if you =='x': #because right now you == the loser
-		the_end = "Congratulations! Player of o is victorious."
+		the_end = "Congratulations! Player o is victorious."
 	else: 
-		the_end = "Congratulations! Player of x is victorious."
+		the_end = "Congratulations! Player x is victorious."
 
 	print (the_end)
 
 tictactoe()
-
-# for player in board:
-# 	for more in board[player]:
-# 		Boardlist[more]=player
-
-# 		['o', 'o', None, None, 'x', 'x'. . .]
-# 		you can index the board
-
-# 		going between the board (human readable), the list, and the dictionary
-
-# 		board = {'x': [4,5], 'o': [1,2]}
-
-# write a game_over function
-# there are 8 possible ways to win (look at the dictionary things...)
-# eventually you need to incorporate strategy too
