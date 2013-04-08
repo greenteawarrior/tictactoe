@@ -1,8 +1,10 @@
+import random
+
 #emilywang
 #softdes!
 #tictactoe
 
-def play(board, you, move):
+def playermove(board, you, move):
 	if move in board['x'] or move in board['o']:	
 		print ("Hey, this spot is already occupied!")
 		return False
@@ -10,7 +12,20 @@ def play(board, you, move):
 		board[you].append(move)
 	return board
 
+def monkeymove(board, you):
+	numbers = [1,2,3,4,5,6,7,8,9]
+	availablemoves = []
+	xtaken = board['x']
+	otaken = board['o']
+	for number in numbers:
+		if number not in xtaken and number not in otaken:
+			availablemoves.append(number)
+	move=random.choice(availablemoves)
+	board[you].append(move)
+	return board
+
 def visualize_board (board):
+	"""This function creates a printable version of the board so a human can see the current board."""
 	boardposlist = [None,'1','2','3','4','5','6','7','8','9'] 
 	xpos = board['x']
 	for i in xpos:
@@ -70,10 +85,10 @@ def tictactoe(player1x,player2o):
 		while game_over(board) == False: 
 			move = int(input("Player of " + you + ", make your move. "))
 			#python's doing it to the board
-			newboard = play (board, you, move)
+			newboard = playermove (board, you, move)
 			while newboard == False:
 				move = int(input("Player of " + you + ", try again elsewhere. "))
-				newboard = play(board, you, move)
+				newboard = playermove(board, you, move)
 			#player made a move; now show them the new board
 			print(visualize_board(board))
 			#next player's turn!
