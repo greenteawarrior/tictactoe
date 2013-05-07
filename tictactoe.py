@@ -4,7 +4,7 @@ import random
 #softdes!
 #tictactoe
 
-def playermove(board, you, move):
+def humanmove(board, you, move):
 	if move in board['x'] or move in board['o']:	
 		print ("Hey, this spot is already occupied!")
 		return False
@@ -71,33 +71,40 @@ def game_over(board):
 
 def tictactoe(player1x,player2o):
 	# initial values
+	board = {'x':[], 'o':[]}
 	if player1x == 'human' and player2o == 'human':
-		board = {'x':[], 'o':[]}
-		you = 'x' #x goes first!
-		welcome = """
-					Hi there. Let's play tic tac toe! 
-					Here's a board; tell me where you want to go. 
-					1 2 3
-					4 5 6
-					7 8 9	
-					"""
+		current = 'x' #x goes first!
+		welcome = "Hi there. Let's play tic tac toe! \nHere's a board; tell me where you want to go. \n1 2 3 \n4 5 6 \n7 8 9"
 		print (welcome)
 		while game_over(board) == False: 
-			move = int(input("Player of " + you + ", make your move. "))
+			move = int(input("Player of " + current + ", make your move. "))
 			#python's doing it to the board
-			newboard = playermove (board, you, move)
+			newboard = humanmove (board, current, move)
 			while newboard == False:
-				move = int(input("Player of " + you + ", try again elsewhere. "))
-				newboard = playermove(board, you, move)
+				move = int(input("Player of " + current + ", try again elsewhere. "))
+				newboard = humanmove(board, current, move)
 			#player made a move; now show them the new board
 			print(visualize_board(board))
 			#next player's turn!
-			if you == 'x':
-				you = 'o'
+			if current == 'x':
+				current = 'o'
 			else: 
-				you = 'x'
+				current = 'x'
 			#setting up the board for the next turn. 	
 			board = newboard 
 		print (game_over(board))
+		return
+	elif player1x == 'human' and player2o == 'computer':
+		return
+	elif player1x == 'computer' and player2o == 'human':
+		return
+	elif player1x == 'human' and player2o == 'monkey':
+		return
+	elif player1x == 'monkey'  and player2o == 'human':
+		return
+	elif player1x == 'computer' and player2o == 'monkey':
+		return
+	elif player1x == 'monkey' and player2o == 'computer':
+		return
 
 tictactoe('human', 'human')
