@@ -72,15 +72,36 @@ def game_over(board, player):
     else: #nobody has won yet
         return False
 
-def tictactoe(player1x,player2o):
+def tictactoe():
+
+    welcome = "Hi there. Let's play tic tac toe! \nHere's a board; tell me where you want to go. \n1 2 3 \n4 5 6 \n7 8 9"
+    print (welcome)
+
+    possibleplayerlist = ['human', 'monkey', "emily's computer", 'other computer']
+    player1x = None
+    player2o = None
+    
+    #determine player1 and player2
+
+    while player1x not in possibleplayerlist:
+        try:
+            player1x = str(input("Player 1 is a... (type and enter one of the available options: \nhuman\nmonkey\nemily's computer\nother computer\n"))
+        except:
+            print ("Invalid player 1 option. Please type again.")
+
+    while player2o not in possibleplayerlist:
+        try:
+            player2o = str(input("Player 2 is a... (type and enter one of the available options: \nhuman\nmonkey\nemily's computer\nother computer\n"))
+        except:
+            print ("Invalid player 2 option. Please type again.")
+
     # initial values
     board = {'x':[], 'o':[]}
     
     if player1x == 'human' and player2o == 'human':
+        print ('Player 1 (x) goes first.')
         current = 'x' #x goes first!
-        welcome = "Hi there. Let's play tic tac toe! \nHere's a board; tell me where you want to go. \n1 2 3 \n4 5 6 \n7 8 9"
-        print (welcome)
-        
+
         while game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
             
             move = False
@@ -112,8 +133,7 @@ def tictactoe(player1x,player2o):
         return
 
     elif player1x == 'human' and player2o == 'monkey':
-        welcome = "Hi there. Let's play tic tac toe! \nHere's a board; tell me where you want to go. \n1 2 3 \n4 5 6 \n7 8 9"
-        print (welcome)
+        print("\n The human will go first and is player x; monkey is player o.\n")
         
         while game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
 
@@ -133,6 +153,7 @@ def tictactoe(player1x,player2o):
 
             if game_over(board, 'player1x') == True:
                 print ('Player 1, the human (x), is victorious.')
+                return
             elif game_over(board, 'player1x') == False:
                 newboard = monkeymove(board, 'o')
                 print ('The monkey has made its move.')
@@ -140,40 +161,40 @@ def tictactoe(player1x,player2o):
                 board = newboard
         #If it's exited the while loop then the monkey must have won because the game_over check for the human already happened near the end of the most recent iteration.
         print ('Player 2, the monkey (o), is victorious.')
-        
         return
 
     elif player1x == 'monkey'  and player2o == 'human':
-        welcome = "Hi there. Let's play tic tac toe! \nHere's a board; tell me where you want to go. \n1 2 3 \n4 5 6 \n7 8 9"
-        print (welcome)
+        print('\nThe monkey will go first and is player x ; human is player o.\n')
         
         while game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
-
-            move = False
-            while move == False:
-                try: 
-                    move = input("Player of x, please make your move. ")
-                except:
-                    print ('Try again; please type an integer.')
-
-            newboard = humanmove(board, 'x', move) # will either return the newboard dictionary or False
-            while newboard == False:
-                move = int(input("Player of x, try again elsewhere. "))
-                newboard = humanmove(board, 'x', move)
-            #player made a move; now show them the new board
-            print(visualize_board(board))
+            
+            newboard = monkeymove(board, 'x')
+            print ('The monkey has made its move.')
+            print (visualize_board(board))
+            board = newboard
 
             if game_over(board, 'player1x') == True:
-                print ('Player 1, the human (x), is victorious.')
+                print ('Player 1, the monkey, is victorious.')
+                return
             elif game_over(board, 'player1x') == False:
-                newboard = monkeymove(board, 'o')
-                print ('The monkey has made its move.')
-                print (visualize_board(board))
-                board = newboard
-        #If it's exited the while loop then the monkey must have won because the game_over check for the human already happened near the end of the most recent iteration.
-        print ('Player 2, the monkey (o), is victorious.')
+                move = False
+                while move == False:
+                    try: 
+                        move = input("Player of o, please make your move. ")
+                    except:
+                        print ('Try again; please type an integer.')
 
+                newboard = humanmove(board, 'o', move) # will either return the newboard dictionary or False
+                while newboard == False:
+                    move = int(input("Player of o, try again elsewhere. "))
+                    newboard = humanmove(board, 'o', move)
+                #player made a move; now show them the new board
+                print(visualize_board(board))
+                
+        #If it's exited the while loop then the human must have won because the game_over check for the monkey already happened near the end of the most recent iteration.
+        print ('Player 2, the human (o), is victorious.')
         return  
+
     elif player1x == 'human' and player2o == 'computer':
         return
     elif player1x == 'computer' and player2o == 'human':
@@ -183,4 +204,4 @@ def tictactoe(player1x,player2o):
     elif player1x == 'monkey' and player2o == 'computer':
         return
 
-tictactoe('human', 'monkey')
+tictactoe()
