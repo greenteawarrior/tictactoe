@@ -28,7 +28,7 @@ def monkeymove(board, you):
 
 def visualize_board (board):
     """This function creates a printable version of the board so a human can see the current board."""
-    boardposlist = [None,'1','2','3','4','5','6','7','8','9'] 
+    boardposlist = [None, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
     xpos = board['x']
     for i in xpos:
         boardposlist[i] = 'x'
@@ -95,7 +95,7 @@ def tictactoe():
         except:
             print ("Invalid player 2 option. Please type again.")
 
-    # initial values
+    # initial values mn6
     board = {'x':[], 'o':[]}
     
     if player1x == 'human' and player2o == 'human':
