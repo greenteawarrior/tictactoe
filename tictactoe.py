@@ -81,12 +81,13 @@ def play(board, you):
             move = e+2
         if e in board[you] and e+2 in board[you] and e+1 in availablemoves:
             move = e+1
-        if e+2 in board[you] and e+3 in board[you] and e in availablemoves:
+        if e+1 in board[you] and e+2 in board[you] and e in availablemoves:
             move = e
 
     if move != None:
         board[you].append(move)
         return board
+
 
     # Vertical win check
     v_winlist = [1, 2, 3]
@@ -101,6 +102,8 @@ def play(board, you):
     if move != None:
         board[you].append(move)
         return board
+
+
 
     # Diagonal win check 
     # (I don't have an elegant e iteration method for this one.)
@@ -121,6 +124,7 @@ def play(board, you):
         board[you].append(move)
         return board
 
+    print (board)
 
     ###
     # 2. Block : If the opponent has two in a row, the player must play the third themself to block the opponent.
@@ -131,12 +135,15 @@ def play(board, you):
             move = e+2
         if e in board[opponent] and e+2 in board[opponent] and e+1 in availablemoves:
             move = e+1
-        if e+2 in board[opponent] and e+3 in board[opponent] and e in availablemoves:
+        if e+1 in board[opponent] and e+2 in board[opponent] and e in availablemoves:
             move = e
 
     if move != None:
         board[you].append(move)
         return board
+
+    print ('HI')
+
 
     # Vertical block check
     v_blocklist = [1, 2, 3]
@@ -166,6 +173,7 @@ def play(board, you):
         move = 5
     if 5 in board[opponent] and 7 in board[opponent] and 3 in availablemoves:
         move = 3
+
 
     if move != None:
         board[you].append(move)
@@ -312,6 +320,8 @@ def play(board, you):
         board[you].append(move)
         return board
 
+    return board
+
 
 def visualize_board (board):
     """This function creates a printable version of the board so a human can see the current board."""
@@ -359,6 +369,9 @@ def game_over(board, player):
     else: #nobody has won yet
         return False
 
+    print ('SUPARGH')
+    return False
+
 def tictactoe():
 
     welcome = "Hi there. Let's play tic tac toe! \nHere's a board; tell me where you want to go. \n1 2 3 \n4 5 6 \n7 8 9\n\nIf you would like to play tictactoe with another computer implementation, please import the 'play' function from Emily's tictactoe module and proceed from there."
@@ -382,7 +395,7 @@ def tictactoe():
         except:
             print ("Invalid player 2 option. Please type again.")
 
-    # initial values mn6
+    # initial values
     board = {'x':[], 'o':[]}
     
     if player1x == 'human' and player2o == 'human':
@@ -559,8 +572,47 @@ def tictactoe():
         return
 
     elif player1x == 'computer' and player2o == 'monkey':
-        print ("\nHow many games would you like the computer and monkey to play?\n")
+        print ("\nThe computer will go first and is player x ; monkey is player o.\n")
+        totalgames = int(input("How many games would you like the computer and monkey to play?\n"))
+        
+        #initialize counters
+        draws = 0
+        mwins = 0
+        cwins = 0
+
+        for i in range(0, totalgames):
+            print ('derp',i)
+            board = {'x':[], 'o':[]}
+            print ('draws', draws)
+            print ('mwins', mwins)
+            print ('cwins', cwins)
+            while game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
+                print (board)
+                board = play(board, 'x')
+                print ('The computer has made its move.')
+                print (board)
+                print (visualize_board(board))
+
+                if game_over(board, 'player1x') == True:
+                    print ('Player 1, the computer (x), is victorious.')
+                    cwins += 1
+                elif game_over(board, 'player1x') == 'Draw' and game_over(board, 'player2o') == 'Draw':
+                    print ("It's a tie.")
+                    draws += 1
+                elif game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
+                    board = monkeymove(board, 'o')
+                    print ('The monkey has made its move.')
+                    print (visualize_board(board))
+                    if game_over(board, 'player2o') == True:
+                        print ('Player 2, the monkey (o), is victorious.')
+                        mwins += 1
+                    elif game_over(board, 'player2o') == 'Draw':
+                        print ("It's a tie.")
+                        draws += 1
+
+        print ("X (computer) won "+ str(cwins) + " times; O (monkey) won " + str(mwins) + " times; "+ str(draws) +" ties." )
         return
+
     elif player1x == 'monkey' and player2o == 'computer':
         return
 
