@@ -142,9 +142,6 @@ def play(board, you):
         board[you].append(move)
         return board
 
-    print ('HI')
-
-
     # Vertical block check
     v_blocklist = [1, 2, 3]
     for e in v_blocklist:
@@ -581,16 +578,10 @@ def tictactoe():
         cwins = 0
 
         for i in range(0, totalgames):
-            print ('derp',i)
             board = {'x':[], 'o':[]}
-            print ('draws', draws)
-            print ('mwins', mwins)
-            print ('cwins', cwins)
             while game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
-                print (board)
                 board = play(board, 'x')
                 print ('The computer has made its move.')
-                print (board)
                 print (visualize_board(board))
 
                 if game_over(board, 'player1x') == True:
@@ -614,6 +605,45 @@ def tictactoe():
         return
 
     elif player1x == 'monkey' and player2o == 'computer':
+        print ("\nThe monkey will go first and is player x ; computer is player o.\n")
+        totalgames = int(input("How many games would you like the computer and monkey to play?\n"))
+        
+        #initialize counters
+        draws = 0
+        mwins = 0
+        cwins = 0
+
+        for i in range(0, totalgames):
+            #print ('current i', i)
+            board = {'x':[], 'o':[]}
+            #print ('draws', draws)
+            #print ('mwins', mwins)
+            #print ('cwins', cwins)
+            while game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
+                print (board)
+                board = monkeymove(board, 'x')
+                print ('The monkey has made its move.')
+                print (board)
+                print (visualize_board(board))
+
+                if game_over(board, 'player1x') == True:
+                    print ('Player 1, the monkey (x), is victorious.')
+                    mwins += 1
+                elif game_over(board, 'player1x') == 'Draw' and game_over(board, 'player2o') == 'Draw':
+                    print ("It's a tie.")
+                    draws += 1
+                elif game_over(board, 'player1x') == False and game_over(board, 'player2o') == False:
+                    board = play(board, 'o')
+                    print ('The computer has made its move.')
+                    print (visualize_board(board))
+                    if game_over(board, 'player2o') == True:
+                        print ('Player 2, the computer (o), is victorious.')
+                        cwins += 1
+                    elif game_over(board, 'player2o') == 'Draw':
+                        print ("It's a tie.")
+                        draws += 1
+
+        print ("X (computer) won "+ str(cwins) + " times; O (monkey) won " + str(mwins) + " times; "+ str(draws) +" ties." )
         return
 
 if __name__=="__main__":
